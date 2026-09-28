@@ -771,7 +771,9 @@ impl InboundThinkingPipeline {
                 && content
                     .get("parts")
                     .and_then(|p| p.as_array())
-                    .map_or(false, |parts| parts.iter().any(has_fr) && parts.iter().any(is_media));
+                    .map_or(false, |parts| {
+                        parts.iter().any(has_fr) && parts.iter().any(is_media)
+                    });
             if !is_model_response {
                 split.push(content);
                 continue;
