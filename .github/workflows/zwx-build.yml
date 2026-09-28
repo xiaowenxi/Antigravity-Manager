@@ -22,7 +22,8 @@ jobs:
       - name: Ensure dist
         run: mkdir -p dist && [ -f dist/index.html ] || echo "<html/>" > dist/index.html
       - name: Pipeline tests
-        run: cd src-tauri && cargo test --lib pipeline::
+        run: |
+          cd src-tauri && cargo test --lib pipeline::
 
   build-windows:
     needs: test
@@ -41,7 +42,9 @@ jobs:
       - run: npm install --legacy-peer-deps
       - name: Build NSIS installer (no updater signing)
         shell: pwsh
-        run: npx tauri build --bundles nsis --config '{\"bundle\":{\"createUpdaterArtifacts\":false}}'
+        run: |
+          '{"bundle":{"createUpdaterArtifacts":false}}' | Set-Content -Encoding ascii zwx-tauri.json
+          npx tauri build --bundles nsis --config zwx-tauri.json
       - uses: actions/upload-artifact@v4
         with:
           name: antigravity-zwx-windows
