@@ -21,6 +21,9 @@ jobs:
           workspaces: "src-tauri"
       - name: Ensure dist
         run: mkdir -p dist && [ -f dist/index.html ] || echo "<html/>" > dist/index.html
+      - name: rustfmt diff
+        run: |
+          cd src-tauri && cargo fmt -- --check src/proxy/pipeline/inbound.rs || true
       - name: Pipeline tests
         run: |
           cd src-tauri && cargo test --lib test_fr_role
