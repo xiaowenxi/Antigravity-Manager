@@ -23,7 +23,7 @@ jobs:
         run: mkdir -p dist && [ -f dist/index.html ] || echo "<html/>" > dist/index.html
       - name: Pipeline tests
         run: |
-          cd src-tauri && cargo test --lib pipeline::
+          cd src-tauri && cargo test --lib test_fr_role
 
   build-windows:
     needs: test

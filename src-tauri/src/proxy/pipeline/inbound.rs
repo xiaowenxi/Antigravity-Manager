@@ -734,7 +734,7 @@ impl InboundThinkingPipeline {
                 .get("parts")
                 .and_then(|p| p.as_array())
                 .map_or(false, |parts| {
-                    !parts.is_empty() && parts.iter().all(|p| has_fr(p) || is_media(p))
+                    parts.iter().any(has_fr) && parts.iter().all(|p| has_fr(p) || is_media(p))
                 });
 
             if is_pure_response {
@@ -743,7 +743,8 @@ impl InboundThinkingPipeline {
                         .get("parts")
                         .and_then(|p| p.as_array())
                         .map_or(false, |parts| {
-                            !parts.is_empty() && parts.iter().all(|p| has_fr(p) || is_media(p))
+                            parts.iter().any(has_fr)
+                                && parts.iter().all(|p| has_fr(p) || is_media(p))
                         });
 
                     if prev_is_pure_response {
